@@ -95,7 +95,11 @@ var Engine = (function(global) {
 
     function checkSuccesss(){
         // Checks if the Player has won the game by reaching the Water
-        if (player.row === 0) reset()
+        if (player.row === 0) {
+            reset();
+            // Show end message
+            showEndMessage();
+        }
     }
 
     /* This is called by the update function and loops through all of the

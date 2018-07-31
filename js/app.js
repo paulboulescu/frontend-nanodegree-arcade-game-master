@@ -77,19 +77,21 @@ Player.prototype.render = function(){
 
 Player.prototype.handleInput = function(key){
     // Checks which was the pressed key and updates the Player's row and column values, while keeping it within the canvas
-    switch(key) {
-        case "left":
-            this.col = Math.max(this.col-1, 0);    
-            break;
-        case "up":
-            this.row = Math.max(this.row-1, 0);
-            break;
-        case "right":
-            this.col = Math.min(this.col+1, 4);
-            break;
-        case "down":
-            this.row = Math.min(this.row+1, 5);
-            break;
+    if(game.interaction){
+        switch(key) {
+            case "left":
+                this.col = Math.max(this.col-1, 0);    
+                break;
+            case "up":
+                this.row = Math.max(this.row-1, 0);
+                break;
+            case "right":
+                this.col = Math.min(this.col+1, 4);
+                break;
+            case "down":
+                this.row = Math.min(this.row+1, 5);
+                break;
+        }
     }
 }
 
@@ -114,3 +116,62 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+
+
+// 
+// Initialization
+// 
+
+// add event listeners for all interactive elements
+function createInteraction() {
+    // add event lister for 'Play Again' button
+    game.ui.playAgainButton.addEventListener('click', clickPlayAgain);
+}
+
+
+//
+// Interaction
+// 
+
+// hide game over message
+function clickPlayAgain() {
+    // make message invisible
+    game.ui.pop.classList.remove('open')
+    // enables keyboard input
+    game.interaction = true;
+}
+
+
+// 
+// Game states
+// 
+
+// show game over message
+function showEndMessage() {
+    // make message visible
+    game.ui.pop.classList.add('open')
+    // disables keyboard input
+    game.interaction = false;
+}
+
+
+// 
+// First run
+// 
+
+// handle game's variables
+const game = {};
+
+// handle game's DOM elements
+game.ui = {};
+game.ui.pop = document.querySelector('.game-over');
+game.ui.playAgainButton = document.querySelector('.game-over .play-button');
+
+// handles game's parameters
+game.params = {};
+
+// enables/disables keyboard interaction
+game.interaction = true;
+
+// adds interaction to cards and restart button
+createInteraction();
